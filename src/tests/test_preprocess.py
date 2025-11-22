@@ -4,12 +4,18 @@ import os
 # Dynamically add /src to sys.path
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, ".."))
-SRC_PATH = os.path.join(PROJECT_ROOT, "src")
 
-sys.path.append(SRC_PATH)
-#from Preprocessing.cleaning import convert_string_numerical, forward_fill
+sys.path.append(PROJECT_ROOT)
+from Preprocessing.cleaning import convert_string_numerical, forward_fill,HourlyIncrementProcessor
 #from Preprocessing.feature_engineering import HourlyIncrementProcessor
-#from config.constants import ALL_FEATURES, ZERO_LIST, TIME_COL, feature_groups
+from config.feature_config import (
+    HDFS_NAMENODE,
+    BASE_DIR,
+    TIME_COL,
+    feature_groups,
+    ALL_FEATURES,
+    ZERO_LIST,
+)
 
 
 from pyspark.sql import SparkSession, DataFrame
@@ -52,7 +58,7 @@ def run_preprocessing_test():
 
     for i in range(24):
         dt = now - timedelta(hours=i)
-        path = f"{hdfs_namenode}/{base_dir}{dt.strftime('%Y-%m-%d')}/hr={dt.strftime('%H')}"
+        path = f"{HDFS_NAMENODE}/{BASE_DIR}{dt.strftime('%Y-%m-%d')}/hr={dt.strftime('%H')}"
         file_paths.append(path)
 
     print(f"\nData Source Paths ({len(file_paths)} total):")
@@ -108,5 +114,5 @@ def run_preprocessing_test():
 # Entry Point
 # ============================================================
 if __name__ == "__main__":
-    print(f"Adding to sys.path: {SRC_PATH}")
+
     final_df = run_preprocessing_test()
