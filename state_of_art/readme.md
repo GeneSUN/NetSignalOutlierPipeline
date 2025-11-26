@@ -57,14 +57,14 @@ This is basically the **DeepAR / TFT style** approach:
   - **Global regularities** (diurnal / weekly patterns, holidays, network-wide events).
   - **Per-customer idiosyncrasies** via embeddings.
 
-**Pros**
-- You automatically get personalization without storing a separate model per customer.
-- Works well when you have tons of related time series.
+| Aspect           | Details                                                                 |
+|------------------|-------------------------------------------------------------------------|
+| **Pros**         | Automatically personalized without storing individual customer models |
+|                  | Scales well when handling many related time series                     |
+| **Cons**         | Harder to interpret than simple statistical or rule-based models       |
+|                  | Requires careful handling of concept drift and new customers           |
+|                  | More complex to deploy (GPU serving, latency, infrastructure)          |
 
-**Cons**
-- Harder to interpret than simple per-customer rules/stat models.
-- Needs careful handling of concept drift and new customers.
-- Deployment complexity (GPU/serving, latency).
 
 
 
@@ -83,41 +83,72 @@ To cope with scale, use **two stages**:
 
 more general, this could be Hierarchical / multi-level detectors (customer → cell → region → global)
 
+| Aspect   | Details                                                          |
+|----------|------------------------------------------------------------------|
+| **Pros** | Much cheaper than running heavy models everywhere                |
+| **Cons** | Risk of missing anomalies if Stage 1 is too aggressive           |
+|          | Pipeline complexity (two types of models, two latencies)         |
 
-**Pros**
-- Much cheaper than running heavy models everywhere.
-
-**Cons**
-- Risk of missing anomalies if Stage 1 is too aggressive.
-- Pipeline complexity (two types of models, two latencies).
 
 
 
 ### 3. Meta-learning “fast per-customer adaptation”
+**Meta-Learning Concept**
 
-Use **meta-learning**:
+Meta-learning trains a general model across many customers, so it can rapidly adapt to a new or changing customer using just a small amount of recent data.
 
-1. Train a meta-model across all customers so that:
-2. Given a small amount of recent data from a new customer,
-3. You can quickly adapt to this customer with 1–2 gradient steps (MAML-style) or fine-tuning of a small head.
 
-Workflow:
+**Workflow**
 
-1. Offline: meta-train across many customers’ histories.
-2. Online: when you get a new/changed customer:
-   - Start from the meta-initialization,
-   - Do a tiny bit of adaptation on their most recent history,
-   - Use the adapted model for anomaly scoring.
+1. **Offline (Meta-Training Phase)**  
+   Train a meta-model using historical data from many customers to learn common patterns and how customer behaviors differ.
+
+2. **Online (Adaptation Phase)**  
+   For a new or changing customer:  
+   - Start from the meta-trained initialization,  
+   - Perform a tiny adaptation using only recent data (few-shot),  
+   - Use the adapted model for anomaly detection on this customer.
+
+```
+                 📘 Offline Meta-Training Phase
+   ┌────────────────────────────────────────────────────────┐
+   │  Train Meta-Model using historical data from many      │
+   │  customers (A, B, C, D...).                            │
+   │                                                        │
+   │  Learn:                                                │
+   │   ✔ Common patterns across customers                  │
+   │   ✔ How customer behaviors differ                     │
+   └────────────────────────────────────────────────────────┘
+                         │
+                         ▼
+              🌐 Meta-Trained Global Model
+                         │
+ ┌───────────────────────┼────────────────────────┬──────────────────────┐
+ │                       │                        │                      │
+ ▼                       ▼                        ▼                      ▼
+👤 Customer A        👤 Customer B             👤 Customer C         👤 Customer D
+(Recent data)        (Recent data)            (Recent data)         (Recent data)
+   │                     │                        │                      │
+   ▼                     ▼                        ▼                      ▼
+🔧 Adapt model A     🔧 Adapt model B         🔧 Adapt model C       🔧 Adapt model D
+(Few-shot tuning)    (Few-shot tuning)        (Few-shot tuning)     (Few-shot tuning)
+   │                     │                        │                      │
+   ▼                     ▼                        ▼                      ▼
+📈 Anomaly Model A   📈 Anomaly Model B       📈 Anomaly Model C     📈 Anomaly Model D
+(Tailored to A)      (Tailored to B)          (Tailored to C)       (Tailored to D)
+
+```
+
+
+| Aspect   | Details                                                                 |
+|----------|-------------------------------------------------------------------------|
+| **Pros** | Approaches per-customer personalization without full retraining        |
+|          | Adapts well to dynamic customer behavior compared to static global models |
+| **Cons** | Complex to implement (research-heavy, challenging infrastructure)      |
+|          | Requires sufficient historical customer data for effective meta-training |
+
 
 this is similar to llm few-shot methodology. you train a large model use customer information, and then fine-tune adapt to personalized information.
-
-**Pros**
-- Gets close to “per-customer custom models” without full retraining each time.
-- Handles dynamic customers better than a static global model.
-
-**Cons**
-- Research-y; serving & training infra is not trivial.
-- Needs enough historical customers to meta-train.
 
 
 ---
