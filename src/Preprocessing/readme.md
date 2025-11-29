@@ -1,6 +1,17 @@
 # 📘 Feature Engineering for Real-Time ML Anomaly Detection
 
+## 📑 Table of Contents
 
+- [📘 Feature Engineering for Real-Time ML Anomaly Detection](#-feature-engineering-for-real-time-ml-anomaly-detection)
+  - [Preprocessing Overview](#preprocessing-overview)
+  - [🥉 Bronze Layer — Raw Data Ingestion](#-1-bronze-layer--raw-data-ingestion-data-engineering-layer)
+  - [🥈 Silver Layer — Preprocessing & Data Quality Enforcement](#-2-silver-layer--preprocessing--data-quality-enforcement)
+  - [🟡 Gold Layer — Model-Ready Feature Tensor Construction](#-3-gold-layer--model-ready-feature-tensor-construction)
+    - [3.1 Sequence-Based Models Input](#31-sequence-based-models)
+    - [3.2 Unpivot Transformation for Distributed Computing](#32-unpivot-transformation-for-distributed-computing)
+  - [Reference Code & Notebook Links](#example)
+
+## Preprocessing Overview
 
 Real-time anomaly detection needs clean and model-ready data — especially when the upstream source is raw  device logs.
 
@@ -161,7 +172,9 @@ To see how the transformer is used end-to-end, refer to the demo notebook:
 
 The Gold layer prepares data for real-time anomaly detection models, 
 
-### 3.1. sequence-based models (LSTM AE, GRU, CNN, ARIMA, seasonal decomposition, etc.).
+### 3.1. sequence-based models
+
+This is for Deep learning model such as LSTM AE, GRU, CNN, ARIMA, seasonal decomposition, etc.).
 - https://github.com/GeneSUN/Anomaly_Detection_toolkit/blob/main/Preprocess/TimeSeriesFeatureTransformerPandas.py#L177
 - https://colab.research.google.com/drive/1z6PtK9nOo6h2e05E_UZAjFHDD-esBA-T#scrollTo=DNx790E7D097
   
@@ -221,5 +234,18 @@ Once unpivoted, PySpark can split the work, Executors can now process every feat
 - ...
 - Executor N → all rows of `feature_k`
 
+
+---
+
+## Example:
+
+**[test_preprocess.py](https://github.com/GeneSUN/NetSignalOutlierPipeline/blob/main/tests/test_preprocess.py)**
+
+
+This script runs an end-to-end test of the preprocessing pipeline by 
+- loading raw HDFS logs,
+- cleaning and conditioning features,
+- transforming wide data into long series, and
+- splitting them into model-ready subseries for anomaly detection.
 
 
