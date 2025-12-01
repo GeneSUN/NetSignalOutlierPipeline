@@ -1,6 +1,5 @@
 # NetSignalOutlierPipeline: Real-Time Anomaly Detection Pipeline
 
-**Distributed Spark Processing \| MLflow Tracking \| KDE & EWMA & ARIMA Ensemble**
 
 ------------------------------------------------------------------------
 
@@ -14,6 +13,17 @@ This pipeline performs real-time anomaly detection on network signal data using:
 
 
 <img width="1200" height="1505" alt="Untitled" src="https://github.com/user-attachments/assets/8ec85b4f-2d5e-4f71-b23a-280ddce40a6a" />
+
+## 📚 Table of Contents
+
+- [🚀 Pipeline Flow](#-pipeline-flow)
+  - [1️⃣ Data Ingestion (HDFS)](#1️⃣-data-ingestion-hdfs)
+  - [2️⃣ Preprocessing](#2️⃣-preprocessing)
+  - [3️⃣ Wide → Long Format](#3️⃣-wide--long-format)
+  - [4️⃣ Distributed Detection (Spark)](#4️⃣-distributed-detection-spark)
+  - [5️⃣ Model Ensemble](#5️⃣-model-ensemble)
+  - [6️⃣ MLflow Tracking](#6️⃣-mlflow-tracking)
+  - [📤 Output Schema](#output-schema)
 
 ------------------------------------------------------------------------
 
@@ -83,7 +93,7 @@ df_long.groupBy("sn", "feature").applyInPandas(...)
 
 ------------------------------------------------------------------------
 
-### 📤 Output Schema
+### Output Schema
 
     sn | time | feature | value | is_outlier_kde | is_outlier_ewma | is_outlier_arima
 
