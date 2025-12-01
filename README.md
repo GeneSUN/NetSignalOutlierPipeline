@@ -1,7 +1,6 @@
-# NetSignalOutlierPipeline: Real-Time Anomaly Detection Pipeline
+# NetSignalOutlierPipeline
 
 
-------------------------------------------------------------------------
 
 ## 🔹 Overview
 
