@@ -7,6 +7,9 @@
 
 ## 🌐 Dimension 1: *Granularity of Modeling*
 
+[<img width="700" height="692" alt="image" src="https://github.com/user-attachments/assets/6a061f27-af38-4b39-a2fa-0e3f0e122cbc" />](https://github.com/GeneSUN/time-series-analysis-toolkit)
+
+
 The first dimension is **granularity** 
 - ranging from global models to individual (per-customer) models.
 - In between these two extremes lies the **segment-based approach**,
