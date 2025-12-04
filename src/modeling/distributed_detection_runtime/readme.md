@@ -1,7 +1,7 @@
 # Spark Distributed Models with Mlflow
 
 
-- [1 Training Models in Parallel with Spark](#1-training-models-in-parallel-with-spark)
+- [1. Training Models in Parallel with Spark](#1-training-models-in-parallel-with-spark)
 - [2. Custom Module Management in Spark](#2-custom-module-management-in-spark)
 - [3. Ensemble Methods](#3-ensemble-methods)
 - [4. MLflow Tracking and Management](#4-mlflow-tracking-and-management)
