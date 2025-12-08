@@ -68,7 +68,7 @@ def train_and_log(
         ae.save_model("autoencoder.pkl")
         mlflow.log_artifact("autoencoder.pkl")
 
-        # Pyfunc model
+        # Pyfunc model, register a wrapped inference model, NOT the trainable PyTorch model
         mlflow.pyfunc.log_model(
             artifact_path="pyfunc_model",
             python_model=AutoencoderWrapper(),
@@ -76,6 +76,16 @@ def train_and_log(
             registered_model_name="Autoencoder_Anomaly_Detection"  # 👈 THIS IS NEW
 
         )
+        '''
+        pyfunc_model/
+            MLmodel
+            python_model.pkl   ← wrapper
+            autoencoder.pkl    ← your actual PyTorch model weights (inside artifacts)
+        python_model.pkl contains your AutoencoderWrapper, which exposes:
+            .predict()
+            .load_context()
+            not .fit(), not .train(), not .optimizer, not .forward() raw access
+        '''
 
         print("Model, metrics, and plots logged to MLflow successfully.")
 
