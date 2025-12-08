@@ -23,10 +23,8 @@ The codebase is organized around three core components:
    - [train_autoencoder.py](#1-train_autoencoderpy--training-entry-point)  
    - [TimeSeriesAutoencoderTrainer.py](#2-timeseriesautoencodertrainerpy--core-training-logic)  
    - [inference_wrapper.py](#3-inference_wrapperpy--production-inference-layer)  
-4. [How the Pipeline Achieves Its Goal](#how-the-pipeline-achieves-its-goal)  
-5. [Typical Deployment and Usage Patterns](#typical-deployment-and-usage-patterns)  
-6. [Extensibility and Future Work](#extensibility-and-future-work)
-7. [Incremental Trainning](#incremental-trainning)
+4. [Typical Deployment and Usage Patterns](#typical-deployment-and-usage-patterns)  
+5. [Incremental Trainning](#incremental-trainning)
 
 ---
 
