@@ -5,8 +5,9 @@
 ## 🔹 Overview
 
 This pipeline performs real-time anomaly detection on network signal data using: 
-- Spark distributed computing
+
 - Custom preprocessing(missing handling, incremental transform, normalization)
+- Spark distributed computing
 - KDE + EWMA + ARIMA ensemble detection
 - MLflow experiment tracking
 
