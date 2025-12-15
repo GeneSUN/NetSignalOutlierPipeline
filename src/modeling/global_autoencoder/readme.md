@@ -113,18 +113,12 @@ Key responsibilities:
   - Group by `slice_id` (e.g., device/customer-level).
   - Sort by the time column.
   - Reshape into `(num_slices, time_steps, features)` for training.
-- Handle univariate and multivariate cases.
 - Optionally perform scaling/normalization and log transformation parameters.
 
 #### Model Definition and Training
 
 - Define PyTorch-based autoencoder architectures:
-  - Fully connected AE
-  - 1D-CNN or LSTM-based variants (optional, depending on your implementation)
 - Implement training loop:
-  - Forward pass → reconstruction loss (e.g., MSE)
-  - Backpropagation and optimizer step
-  - Validation loop with loss tracking
 - Support early stopping or max-epoch-based training.
 
 #### MLflow Integration
