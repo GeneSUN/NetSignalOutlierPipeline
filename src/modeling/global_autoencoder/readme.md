@@ -37,7 +37,7 @@ Build a **anomaly detection system** that can train, evaluate, and serve autoenc
 ### Objectives
 
 1. Train Models
-   - Train autoencoder models on per-customer or per-device time series.
+   - Train autoencoder models on per-customer or per-feature time series.
 
 2. Track Experiments
    - Log runs, metrics, and models with MLflow.
