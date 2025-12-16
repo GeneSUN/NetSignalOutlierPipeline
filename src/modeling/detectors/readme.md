@@ -1,5 +1,5 @@
 
-# 📡 Wi-Fi Score Analysis
+# 📡 Model Types
 
 Real-time performance monitoring, anomaly detection, and novelty detection for 5G Home Wi-Fi customer experience.
 

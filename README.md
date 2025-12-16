@@ -5,8 +5,9 @@
 ## 🔹 Overview
 
 This pipeline performs real-time anomaly detection on network signal data using: 
-- Spark distributed computing
+
 - Custom preprocessing(missing handling, incremental transform, normalization)
+- Spark distributed computing
 - KDE + EWMA + ARIMA ensemble detection
 - MLflow experiment tracking
 
@@ -27,6 +28,9 @@ This pipeline performs real-time anomaly detection on network signal data using:
 ------------------------------------------------------------------------
 
 ## 🚀 Pipeline Flow
+
+Step 1,2,3 are data process, more details discussed in 
+- https://github.com/GeneSUN/NetSignalOutlierPipeline/tree/main/src/Preprocessing
 
 ### 1️⃣ Data Ingestion (HDFS)
 
@@ -57,10 +61,20 @@ Transforms:
 
 ------------------------------------------------------------------------
 
+Step 4,5,6 are modeling, more details discussed in: 
+- https://github.com/GeneSUN/NetSignalOutlierPipeline/tree/main/src/modeling/distributed_detection_runtime
+- https://github.com/GeneSUN/Anomaly_Detection_toolkit/tree/main
+  
 ### 4️⃣ Distributed Detection (Spark)
 
 Spark `applyInPandas` performs feature-wise group-level anomaly
 detection:
+
+```python
+spark = SparkSession.builder.appName("NetSignalDev").getOrCreate()
+sc = spark.sparkContext
+sc.addPyFile("hdfs:///libs/net_signal_pipeline.zip")
+```
 
 ``` python
 df_long.groupBy("sn", "feature").applyInPandas(...)

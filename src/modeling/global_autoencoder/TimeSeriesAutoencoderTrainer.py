@@ -310,6 +310,7 @@ class TimeSeriesAutoencoderTrainer:
                 "scaler": self.scaler,
                 "model": self.model,
                 "threshold": self.threshold_scores,
+                "model_params": self.model_params,
             },
             path,
         )
