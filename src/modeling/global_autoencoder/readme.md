@@ -256,6 +256,8 @@ You can plug this into your existing Spark / MLflow / cloud ecosystem and scale 
 
 ## *Incremental Trainning
 
+<img width="489" height="588" alt="Untitled" src="https://github.com/user-attachments/assets/3e691563-de11-45e6-bab6-d077e16e68f2" />
+
 1. within [TimeSeriesAutoencoderTrainer](https://github.com/GeneSUN/NetSignalOutlierPipeline/blob/main/src/modeling/global_autoencoder/TimeSeriesAutoencoderTrainer.py)
 
 ```python
@@ -296,4 +298,4 @@ class TimeSeriesAutoencoderTrainer:
         mlflow.log_artifact("autoencoder.pkl")
 ```
 
-<img width="489" height="588" alt="Untitled" src="https://github.com/user-attachments/assets/3e691563-de11-45e6-bab6-d077e16e68f2" />
+
